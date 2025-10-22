@@ -15,13 +15,20 @@ const ParticleBackground = () => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     let animationFrameId
+    let resizeObserver
 
-    // Set canvas size
+    // Set canvas size based on parent container so it scrolls with content
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      centerXRef.current = canvas.width / 2
-      centerYRef.current = canvas.height / 2
+      const parent = canvas.parentElement
+      const width = parent ? parent.clientWidth : window.innerWidth
+      // Render to full viewport height so particles keep scale; container will clip
+      const height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+      centerXRef.current = width / 2
+      // Move particle field slightly upward to better frame the hero text
+      const verticalOffset = Math.min(80, Math.max(40, height * 0.06))
+      centerYRef.current = height / 2 - verticalOffset
       initParticles()
     }
 
@@ -147,8 +154,11 @@ const ParticleBackground = () => {
 
     // Mouse move handler with constrained rotation
     const handleMouseMove = (e) => {
-      const x = (e.clientX / canvas.width) * 2 - 1
-      const y = (e.clientY / canvas.height) * 2 - 1
+      const rect = canvas.getBoundingClientRect()
+      const relX = e.clientX - rect.left
+      const relY = e.clientY - rect.top
+      const x = (relX / rect.width) * 2 - 1
+      const y = (relY / rect.height) * 2 - 1
 
       // Limit rotation to ±0.2 radians (~11 degrees)
       targetRotationRef.current.x = Math.max(-0.2, Math.min(0.2, -y * 0.2))
@@ -263,13 +273,24 @@ const ParticleBackground = () => {
 
     // Initialize and start animation
     resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
+    // Observe parent size changes for responsive canvas sizing
+    const parent = canvas.parentElement
+    if (parent && 'ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(() => resizeCanvas())
+      resizeObserver.observe(parent)
+    } else {
+      window.addEventListener('resize', resizeCanvas)
+    }
     window.addEventListener('mousemove', handleMouseMove)
     animate()
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', resizeCanvas)
+      if (resizeObserver) {
+        resizeObserver.disconnect()
+      } else {
+        window.removeEventListener('resize', resizeCanvas)
+      }
       window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(animationFrameId)
     }
