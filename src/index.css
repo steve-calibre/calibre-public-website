@@ -10,7 +10,7 @@
   --primary: #00305F;
   --accent: #E3F2FF;
   --text: #E3F2FF;
-  --hero-peek: 130px; /* amount of banner peek at bottom of viewport */
+  --hero-peek: 170px; /* amount of banner peek at bottom of viewport */
 
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
