@@ -53,10 +53,10 @@ function App() {
       >
         <p className="alumni-text">Built by alumni from:</p>
         <div className="alumni-logos">
-          <img src="/palantir-logo.png" alt="Palantir" className="alumni-logo" />
-          <img src="/oc-and-c-logo.png" alt="OC&C" className="alumni-logo" />
-          <img src="/amazon-logo.svg" alt="Amazon" className="alumni-logo" />
-          <img src="/factset-logo.png" alt="FactSet" className="alumni-logo" />
+          <img src="/palantir-logo-black.png" alt="Palantir" className="alumni-logo alumni-logo--palantir" />
+          <img src="/oc-and-c-logo.png" alt="OC&C" className="alumni-logo alumni-logo--oc-and-c" />
+          <img src="/amazon-logo.svg" alt="Amazon" className="alumni-logo alumni-logo--amazon" />
+          <img src="/factset-logo.png" alt="FactSet" className="alumni-logo alumni-logo--factset" />
         </div>
       </motion.div>
 
