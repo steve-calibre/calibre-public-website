@@ -10,13 +10,15 @@
   --primary: #00305F;
   --accent: #E3F2FF;
   --text: #E3F2FF;
+  --hero-peek: 130px; /* amount of banner peek at bottom of viewport */
 
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color: var(--text);
-  background-color: var(--primary);
+  /* Site-wide vertical gradient background */
+  background: linear-gradient(180deg, #000a41 0%, #e3f2ff 100%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,7 +30,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--primary);
+  /* Mirror gradient on body to ensure full-page coverage */
+  background: linear-gradient(180deg, #000a41 0%, #e3f2ff 100%);
   overflow-x: hidden;
 }
 
