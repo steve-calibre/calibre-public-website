@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ParticleBackground from './components/ParticleBackground'
 import './App.css'
-import { Analytics } from "@vercel/analytics/next"
 
 function App() {
   return (
