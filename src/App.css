@@ -84,6 +84,9 @@
   box-shadow: 0 4px 20px rgba(227, 242, 255, 0.3);
   position: relative;
   overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-family: 'Manrope', sans-serif;
 }
 
 .cta-button::before {
