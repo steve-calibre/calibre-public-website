@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import ParticleBackground from './components/ParticleBackground'
+import DemoModal from './components/DemoModal'
 import './App.css'
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <>
       <div className="app">
@@ -34,12 +37,12 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <a href="mailto:hello@calibre.ac" className="cta-button">
-                <span>Get in touch</span>
+              <button onClick={() => setIsModalOpen(true)} className="cta-button">
+                <span>See Demo</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </a>
+              </button>
             </motion.div>
           </main>
         </div>
@@ -69,6 +72,8 @@ function App() {
           © 2025 Calibre Technologies Inc. All rights reserved.
         </motion.p>
       </footer>
+
+      <DemoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   )
 }
