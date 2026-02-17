@@ -35,7 +35,7 @@ function DemoModal({ isOpen, onClose }) {
                   <path d="M20 32L28 40L44 24" stroke="#E3F2FF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <h2>Thanks for your interest!</h2>
-                <p>We'll be in touch soon to schedule your demo.</p>
+                <p>We'll be in touch soon to schedule your consultation.</p>
               </div>
             </motion.div>
           </motion.div>
@@ -68,8 +68,8 @@ function DemoModal({ isOpen, onClose }) {
               </svg>
             </button>
 
-            <h2 className="modal-title">Request a Demo</h2>
-            <p className="modal-subtitle">See how Calibre can transform your certification body</p>
+            <h2 className="modal-title">Book AI Consultation</h2>
+            <p className="modal-subtitle">See real ROI from AI</p>
 
             <form onSubmit={handleSubmit} className="demo-form">
               <div className="form-group">
@@ -104,7 +104,7 @@ function DemoModal({ isOpen, onClose }) {
               </div>
 
               <button type="submit" disabled={state.submitting} className="submit-button">
-                {state.submitting ? 'Sending...' : 'Request Demo'}
+                {state.submitting ? 'Sending...' : 'Book Consultation'}
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
