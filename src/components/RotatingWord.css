@@ -1,0 +1,22 @@
+.rotating-word-wrapper {
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  height: 1.2em;
+}
+
+.rotating-word {
+  display: inline-flex;
+}
+
+/* Each letter sits inside a clipping box so the slide is masked */
+.letter-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.15em;
+}
+
+.rotating-letter {
+  display: inline-block;
+}

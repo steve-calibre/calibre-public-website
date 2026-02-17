@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://calibre.ac/sitemap.xml
