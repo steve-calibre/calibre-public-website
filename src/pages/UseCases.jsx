@@ -45,8 +45,8 @@ const productSections = [
   },
   {
     n: "03", label: "Stage 1 audit plan",
-    narrative: "The right questions, at the right time.",
-    description: "Tailored schedules with questions written for this client, not a template.",
+    narrative: "A plan that reads like you wrote it.",
+    description: "Questions tied to this client's scope, mapped to clauses, timed to a realistic day.",
     Component: AuditPlan,
   },
   {
@@ -57,8 +57,8 @@ const productSections = [
   },
   {
     n: "05", label: "Report generated",
-    narrative: "Audit draft to sign off. Hours, not days.",
-    description: "From audit to signed report. Streamlined without sacrificing rigour.",
+    narrative: "Leave site with the report drafted.",
+    description: "Every finding referenced, every clause tracked, ready to review before you leave.",
     Component: ReportReady,
   },
 ]
