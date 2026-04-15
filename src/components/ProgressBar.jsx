@@ -16,7 +16,7 @@ const DEFAULT_LABELS = [
 
 const clamp = (v) => Math.max(0, Math.min(1, v))
 
-function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
+function ScrollLabel({ scrollYProgress, index, totalSections, label, compact }) {
   const seg = 1 / totalSections
   const mid = (index + 0.5) * seg
 
@@ -25,17 +25,8 @@ function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
   const c = clamp(mid + seg * 0.3)
   const d = clamp(mid + seg * 0.6)
 
-  const opacity = useTransform(
-    scrollYProgress,
-    [a, b, c, d],
-    [0, 1, 1, 0]
-  )
-
-  const y = useTransform(
-    scrollYProgress,
-    [a, b, c, d],
-    [24, 0, 0, -24]
-  )
+  const opacity = useTransform(scrollYProgress, [a, b, c, d], [0, 1, 1, 0])
+  const y = useTransform(scrollYProgress, [a, b, c, d], [24, 0, 0, -24])
 
   return (
     <motion.div
@@ -45,7 +36,7 @@ function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
         top: '50%',
         opacity,
         y,
-        fontSize: 18,
+        fontSize: compact ? 13 : 18,
         fontWeight: 700,
         color: C.primary,
         whiteSpace: 'nowrap',
@@ -58,7 +49,7 @@ function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
   )
 }
 
-export default function ProgressBar({ scrollYProgress, totalSections, labels }) {
+export default function ProgressBar({ scrollYProgress, totalSections, labels, compact = false }) {
   const sectionLabels = labels || DEFAULT_LABELS
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -72,10 +63,10 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
     <div
       style={{
         position: 'fixed',
-        right: 48,
+        right: compact ? 24 : 48,
         top: 'calc(50% + 30px)',
         transform: 'translateY(-50%)',
-        height: '70vh',
+        height: compact ? '60vh' : '70vh',
         zIndex: 9999,
         pointerEvents: 'none',
         display: 'flex',
@@ -83,7 +74,7 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
       }}
     >
       {/* Scrolling label */}
-      <div style={{ position: 'relative', width: 150, marginRight: 24 }}>
+      <div style={{ position: 'relative', width: compact ? 100 : 150, marginRight: compact ? 16 : 24 }}>
         {sectionLabels.map((label, i) => (
           <ScrollLabel
             key={i}
@@ -91,20 +82,21 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
             index={i}
             totalSections={totalSections}
             label={label}
+            compact={compact}
           />
         ))}
       </div>
 
       {/* Track + fill + dots */}
-      <div style={{ position: 'relative', width: 36, display: 'flex', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', width: compact ? 24 : 36, display: 'flex', justifyContent: 'center' }}>
         {/* Track background */}
         <div
           style={{
             position: 'absolute',
             top: 0,
-            width: 8,
+            width: compact ? 4 : 8,
             height: '100%',
-            borderRadius: 4,
+            borderRadius: compact ? 2 : 4,
             background: 'rgba(0,48,95,0.08)',
             overflow: 'hidden',
           }}
@@ -114,7 +106,7 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
               width: '100%',
               height: '100%',
               background: `linear-gradient(180deg, ${C.primary} 0%, ${C.primaryLight} 100%)`,
-              borderRadius: 4,
+              borderRadius: compact ? 2 : 4,
               transformOrigin: 'top',
               scaleY,
             }}
@@ -127,6 +119,11 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
           const isPast = i < activeIndex
           const top = `${(i / (totalSections - 1)) * 100}%`
 
+          const dotSize = compact
+            ? (isActive ? 10 : 8)
+            : (isActive ? 18 : 12)
+          const ringSize = compact ? 22 : 36
+
           return (
             <div
               key={i}
@@ -138,7 +135,6 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
                 transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
               }}
             >
-              {/* Outer pulse ring */}
               {isActive && (
                 <div
                   style={{
@@ -146,8 +142,8 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 36,
-                    height: 36,
+                    width: ringSize,
+                    height: ringSize,
                     borderRadius: '50%',
                     border: `2px solid ${C.primary}`,
                     opacity: 0.2,
@@ -155,14 +151,13 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
                   }}
                 />
               )}
-              {/* Dot */}
               <div
                 style={{
-                  width: isActive ? 18 : 12,
-                  height: isActive ? 18 : 12,
+                  width: dotSize,
+                  height: dotSize,
                   borderRadius: '50%',
                   background: isPast || isActive ? C.primary : C.neutral200,
-                  border: isActive ? '3px solid #fff' : '2px solid transparent',
+                  border: isActive ? (compact ? '2px solid #fff' : '3px solid #fff') : '2px solid transparent',
                   boxShadow: isActive ? '0 0 14px rgba(0,48,95,0.35)' : 'none',
                   transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
                 }}

@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import ScrollSection from '../components/ScrollSection'
 import { ScrollProvider, ScrollReveal } from '../components/ScrollContext'
 import ProgressBar from '../components/ProgressBar'
+import useMediaQuery from '../hooks/useMediaQuery'
 import NewAudit from '../components/cards/NewAudit'
 import CompanyProfile from '../components/cards/CompanyProfile'
 import Classification from '../components/cards/Classification'
@@ -66,9 +67,9 @@ export default function UseCases() {
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
 
-  // Fade out bottom Sign Up button well before the last (CTA) section
-  // Start fading during the second-to-last section, fully gone before CTA
-  // Fade out halfway through the second-to-last section, fully gone before CTA
+  const isMobile = useMediaQuery('(max-width: 767px)')
+  const isTablet = useMediaQuery('(max-width: 1023px)')
+
   const fadeStart = (TOTAL_SECTIONS - 2) / TOTAL_SECTIONS + 0.5 / TOTAL_SECTIONS
   const fadeEnd = (TOTAL_SECTIONS - 1) / TOTAL_SECTIONS
   const btnOpacity = useTransform(scrollYProgress, [fadeStart, fadeEnd], [1, 0])
@@ -97,16 +98,30 @@ export default function UseCases() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '24px 48px',
+          padding: isMobile ? '12px 16px' : isTablet ? '16px 32px' : '24px 48px',
           background: 'rgba(250,250,250,0.85)',
           backdropFilter: 'blur(12px)',
           borderBottom: 'none',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <a href="https://calibre.ac"><img src="/Calibre-Logo-Blue-On-White.png" alt="Calibre" style={{ height: 45 }} /></a>
+          <a href="https://calibre.ac">
+            <img src="/Calibre-Logo-Blue-On-White.png" alt="Calibre" style={{ height: isMobile ? 28 : isTablet ? 36 : 45 }} />
+          </a>
         </div>
-        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 47, fontWeight: 800, color: C.primary, letterSpacing: '-0.02em', fontFamily: font }}>
+        <span
+          style={{
+            position: 'absolute',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: isMobile ? 22 : isTablet ? 32 : 47,
+            fontWeight: 800,
+            color: C.primary,
+            letterSpacing: '-0.02em',
+            fontFamily: font,
+            whiteSpace: 'nowrap',
+          }}
+        >
           Auditor OS
         </span>
         <a
@@ -114,9 +129,9 @@ export default function UseCases() {
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            fontSize: 14,
+            fontSize: isMobile ? 11 : 14,
             fontWeight: 700,
-            padding: '10px 28px',
+            padding: isMobile ? '7px 16px' : '10px 28px',
             borderRadius: 9999,
             background: C.primary,
             color: C.white,
@@ -124,6 +139,7 @@ export default function UseCases() {
             letterSpacing: '0.02em',
             transition: 'all 0.2s ease',
             fontFamily: font,
+            whiteSpace: 'nowrap',
           }}
         >
           Sign Up
@@ -136,14 +152,17 @@ export default function UseCases() {
         style={{ height: `${TOTAL_SECTIONS * 100}vh`, position: 'relative' }}
       />
 
-      {/* Progress bar */}
-      <ProgressBar
-        scrollYProgress={scrollYProgress}
-        totalSections={TOTAL_SECTIONS}
-        labels={progressLabels}
-      />
+      {/* Progress bar — hidden on mobile */}
+      {!isMobile && (
+        <ProgressBar
+          scrollYProgress={scrollYProgress}
+          totalSections={TOTAL_SECTIONS}
+          labels={progressLabels}
+          compact={isTablet}
+        />
+      )}
 
-      {/* Sections 1–7: Product cards with narrative */}
+      {/* Sections 1–6: Product cards with narrative */}
       {productSections.map(({ n, label, narrative, description, Component }, i) => (
         <ScrollSection
           key={n}
@@ -157,62 +176,112 @@ export default function UseCases() {
               style={{
                 width: '100%',
                 maxWidth: 1200,
-                padding: '0 280px 0 48px',
+                padding: isMobile
+                  ? '80px 20px 20px'
+                  : isTablet
+                    ? '0 200px 0 32px'
+                    : '0 280px 0 48px',
                 boxSizing: 'border-box',
-                display: 'grid',
-                gridTemplateColumns: '1.2fr 1fr',
-                gap: 48,
-                alignItems: 'center',
+                display: isMobile ? 'flex' : 'grid',
+                flexDirection: isMobile ? 'column' : undefined,
+                gridTemplateColumns: isMobile ? undefined : isTablet ? '1fr 1fr' : '1.2fr 1fr',
+                gap: isMobile ? 24 : isTablet ? 32 : 48,
+                alignItems: isMobile ? 'stretch' : 'center',
+                overflow: isMobile ? 'auto' : undefined,
+                maxHeight: isMobile ? '100dvh' : undefined,
               }}
             >
-              {/* Left: Card */}
-              <div style={{ maxWidth: 520 }}>
-                <ScrollReveal order={0}>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      marginBottom: 16,
-                      color: C.neutral400,
-                    }}
-                  >
-                    {n} &nbsp;·&nbsp; {label}
-                  </div>
-                </ScrollReveal>
+              {/* Narrative — on mobile, shown first (above card) */}
+              {isMobile && (
+                <div>
+                  <ScrollReveal order={0}>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        marginBottom: 8,
+                        color: C.neutral400,
+                      }}
+                    >
+                      {n} &nbsp;·&nbsp; {label}
+                    </div>
+                  </ScrollReveal>
+                  <ScrollReveal order={1}>
+                    <h3
+                      style={{
+                        fontSize: 'clamp(1.25rem, 5vw, 1.75rem)',
+                        fontWeight: 700,
+                        lineHeight: 1.2,
+                        color: C.primary,
+                        letterSpacing: '-0.02em',
+                        margin: '0 0 6px',
+                      }}
+                    >
+                      {narrative}
+                    </h3>
+                  </ScrollReveal>
+                  <ScrollReveal order={2}>
+                    <p style={{ fontSize: 13, lineHeight: 1.6, color: C.neutral500, margin: 0 }}>
+                      {description}
+                    </p>
+                  </ScrollReveal>
+                </div>
+              )}
+
+              {/* Card */}
+              <div style={{ maxWidth: isMobile ? undefined : 520 }}>
+                {!isMobile && (
+                  <ScrollReveal order={0}>
+                    <div
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        marginBottom: 16,
+                        color: C.neutral400,
+                      }}
+                    >
+                      {n} &nbsp;·&nbsp; {label}
+                    </div>
+                  </ScrollReveal>
+                )}
                 <Component />
               </div>
 
-              {/* Right: Narrative */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <ScrollReveal order={1} from="right">
-                  <h3
-                    style={{
-                      fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
-                      fontWeight: 700,
-                      lineHeight: 1.15,
-                      color: C.primary,
-                      letterSpacing: '-0.03em',
-                      margin: 0,
-                    }}
-                  >
-                    {narrative}
-                  </h3>
-                </ScrollReveal>
-                <ScrollReveal order={2} from="right">
-                  <p
-                    style={{
-                      fontSize: 'clamp(0.95rem, 1.5vw, 1.15rem)',
-                      lineHeight: 1.7,
-                      color: C.neutral500,
-                      marginTop: 16,
-                    }}
-                  >
-                    {description}
-                  </p>
-                </ScrollReveal>
-              </div>
+              {/* Narrative — desktop/tablet, shown on right */}
+              {!isMobile && (
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <ScrollReveal order={1} from="right">
+                    <h3
+                      style={{
+                        fontSize: isTablet ? 'clamp(1.25rem, 3vw, 2rem)' : 'clamp(1.75rem, 3.5vw, 2.75rem)',
+                        fontWeight: 700,
+                        lineHeight: 1.15,
+                        color: C.primary,
+                        letterSpacing: '-0.03em',
+                        margin: 0,
+                      }}
+                    >
+                      {narrative}
+                    </h3>
+                  </ScrollReveal>
+                  <ScrollReveal order={2} from="right">
+                    <p
+                      style={{
+                        fontSize: isTablet ? 'clamp(0.85rem, 1.3vw, 1rem)' : 'clamp(0.95rem, 1.5vw, 1.15rem)',
+                        lineHeight: 1.7,
+                        color: C.neutral500,
+                        marginTop: 16,
+                      }}
+                    >
+                      {description}
+                    </p>
+                  </ScrollReveal>
+                </div>
+              )}
             </div>
           </ScrollProvider>
         </ScrollSection>
@@ -230,7 +299,7 @@ export default function UseCases() {
             style={{
               width: '100%',
               maxWidth: 700,
-              padding: '0 48px',
+              padding: isMobile ? '0 20px' : '0 48px',
               boxSizing: 'border-box',
               textAlign: 'center',
             }}
@@ -238,11 +307,11 @@ export default function UseCases() {
             <ScrollReveal order={0}>
               <div
                 style={{
-                  fontSize: 13,
+                  fontSize: isMobile ? 11 : 13,
                   fontWeight: 700,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  marginBottom: 24,
+                  marginBottom: isMobile ? 16 : 24,
                   color: C.neutral400,
                 }}
               >
@@ -253,7 +322,7 @@ export default function UseCases() {
             <ScrollReveal order={1}>
               <h2
                 style={{
-                  fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
+                  fontSize: isMobile ? 'clamp(1.5rem, 7vw, 2rem)' : 'clamp(2rem, 4.5vw, 3.25rem)',
                   fontWeight: 700,
                   lineHeight: 1.1,
                   marginBottom: 16,
@@ -270,9 +339,9 @@ export default function UseCases() {
             <ScrollReveal order={2}>
               <p
                 style={{
-                  fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
+                  fontSize: isMobile ? 14 : 'clamp(1rem, 1.8vw, 1.2rem)',
                   color: C.neutral500,
-                  marginBottom: 40,
+                  marginBottom: isMobile ? 28 : 40,
                   lineHeight: 1.7,
                 }}
               >
@@ -283,15 +352,15 @@ export default function UseCases() {
             <ScrollReveal order={3} from="scale">
               <a
                 href="https://forms.clickup.com/90152160985/f/2kyqtkpt-2215/YFIRHK4OBCLLY05SEL"
-          target="_blank"
-          rel="noopener noreferrer"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 10,
-                  fontSize: 17,
+                  fontSize: isMobile ? 15 : 17,
                   fontWeight: 700,
-                  padding: '16px 44px',
+                  padding: isMobile ? '14px 36px' : '16px 44px',
                   borderRadius: 9999,
                   background: C.primary,
                   color: C.white,
@@ -310,12 +379,19 @@ export default function UseCases() {
             </ScrollReveal>
 
             <ScrollReveal order={4}>
-              <div style={{ marginTop: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/amazon-logo.svg" alt="Amazon" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/factset-logo.png" alt="FactSet" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+              <div style={{
+                marginTop: isMobile ? 32 : 48,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: isMobile ? '1rem' : '2rem',
+                flexWrap: 'wrap',
+              }}>
+                <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/amazon-logo.svg" alt="Amazon" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/factset-logo.png" alt="FactSet" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
               </div>
             </ScrollReveal>
           </div>
@@ -326,7 +402,7 @@ export default function UseCases() {
       <motion.div
         style={{
           position: 'fixed',
-          bottom: 40,
+          bottom: isMobile ? 24 : 40,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 10000,
@@ -334,16 +410,23 @@ export default function UseCases() {
           display: btnDisplay,
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 8,
+          gap: isMobile ? 4 : 8,
           pointerEvents: 'none',
         }}
       >
-        <span style={{ fontSize: 14, fontWeight: 700, color: C.primary, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
+        <span style={{
+          fontSize: isMobile ? 11 : 14,
+          fontWeight: 700,
+          color: C.primary,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          marginBottom: 4,
+        }}>
           Scroll
         </span>
         <motion.svg
-          width="32"
-          height="52"
+          width={isMobile ? 24 : 32}
+          height={isMobile ? 40 : 52}
           viewBox="0 -2 32 52"
           fill="none"
           style={{ display: 'block', overflow: 'visible' }}
