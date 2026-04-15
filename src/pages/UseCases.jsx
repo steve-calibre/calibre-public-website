@@ -345,7 +345,7 @@ export default function UseCases() {
                   lineHeight: 1.7,
                 }}
               >
-                Built by auditors, for auditors. From new audit to signed report. Streamlined without sacrificing rigour.
+                Built by auditors, for AI-assisted ISO audits. Deeper preparation, faster reviews, defensible reports — every clause traceable.
               </p>
             </ScrollReveal>
 
@@ -382,16 +382,32 @@ export default function UseCases() {
               <div style={{
                 marginTop: isMobile ? 32 : 48,
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: isMobile ? '1rem' : '2rem',
-                flexWrap: 'wrap',
+                gap: isMobile ? 8 : 12,
               }}>
-                <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/amazon-logo.svg" alt="Amazon" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
-                <img src="/factset-logo.png" alt="FactSet" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <span style={{
+                  fontSize: isMobile ? 10 : 12,
+                  fontWeight: 600,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: C.neutral400,
+                }}>
+                  Built by alumni from:
+                </span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: isMobile ? '1rem' : '2rem',
+                  flexWrap: 'wrap',
+                }}>
+                  <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                  <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                  <img src="/amazon-logo.svg" alt="Amazon" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                  <img src="/factset-logo.png" alt="FactSet" style={{ height: isMobile ? 20 : 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                  <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: isMobile ? 32 : 44, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                </div>
               </div>
             </ScrollReveal>
           </div>
