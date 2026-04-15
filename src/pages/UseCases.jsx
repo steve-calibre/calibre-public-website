@@ -1,24 +1,22 @@
-import { useRef, useEffect } from 'react'
-import { useScroll } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import ScrollSection from '../components/ScrollSection'
 import { ScrollProvider, ScrollReveal } from '../components/ScrollContext'
 import ProgressBar from '../components/ProgressBar'
 import NewAudit from '../components/cards/NewAudit'
 import CompanyProfile from '../components/cards/CompanyProfile'
 import Classification from '../components/cards/Classification'
-import LegalRegister from '../components/cards/LegalRegister'
 import AuditPlan from '../components/cards/AuditPlan'
 import Copilot from '../components/cards/Copilot'
 import ReportReady from '../components/cards/ReportReady'
 import { C, font } from '../components/cards/theme'
 
-const TOTAL_SECTIONS = 8
+const TOTAL_SECTIONS = 7
 
 const progressLabels = [
   'New Audit',
   'Research',
   'Classification',
-  'Legal',
   'Audit Plan',
   'Co-pilot',
   'Report',
@@ -35,37 +33,31 @@ const productSections = [
   {
     n: "01", label: "Company deep research",
     narrative: "Know everything before you arrive.",
-    description: "612 sources cross-checked in seconds — Companies House, HSE, sector bulletins.",
+    description: "Hundreds of sources cross-checked in seconds — Companies House, HSE, sector bulletins.",
     Component: CompanyProfile,
   },
   {
     n: "02", label: "EA code + risk classification",
     narrative: "Risk that adapts.",
-    description: "AI catches what checklists miss. Default Medium doesn't always apply.",
+    description: "Catch risks that standard guidelines might miss. Intelligent context to enhance your audit.",
     Component: Classification,
   },
   {
-    n: "03", label: "Legal register",
-    narrative: "Every obligation. Nothing missed.",
-    description: "Every regulation mapped, every sector check cleared, every citation traced.",
-    Component: LegalRegister,
-  },
-  {
-    n: "04", label: "Stage 1 audit plan",
+    n: "03", label: "Stage 1 audit plan",
     narrative: "The right questions, at the right time.",
     description: "Tailored schedules with questions written for this client, not a template.",
     Component: AuditPlan,
   },
   {
-    n: "05", label: "Document review co-pilot",
-    narrative: "AI pre-scores. You decide.",
+    n: "04", label: "Document review co-pilot",
+    narrative: "AI recommends. You decide.",
     description: "Clause-by-clause review with evidence references. Your judgement, on the record.",
     Component: Copilot,
   },
   {
-    n: "06", label: "Report generated",
-    narrative: "Draft to signature. Hours, not days.",
-    description: "From audit to signed report — stripped to what matters.",
+    n: "05", label: "Report generated",
+    narrative: "Audit draft to sign off. Hours, not days.",
+    description: "From audit to signed report. Streamlined without sacrificing rigour.",
     Component: ReportReady,
   },
 ]
@@ -74,14 +66,13 @@ export default function UseCases() {
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
 
-  // Load ClickUp forms embed script
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://app-cdn.clickup.com/assets/js/forms-embed/v1.js'
-    script.async = true
-    document.body.appendChild(script)
-    return () => { document.body.removeChild(script) }
-  }, [])
+  // Fade out bottom Sign Up button well before the last (CTA) section
+  // Start fading during the second-to-last section, fully gone before CTA
+  // Fade out halfway through the second-to-last section, fully gone before CTA
+  const fadeStart = (TOTAL_SECTIONS - 2) / TOTAL_SECTIONS + 0.5 / TOTAL_SECTIONS
+  const fadeEnd = (TOTAL_SECTIONS - 1) / TOTAL_SECTIONS
+  const btnOpacity = useTransform(scrollYProgress, [fadeStart, fadeEnd], [1, 0])
+  const btnDisplay = useTransform(scrollYProgress, (v) => v >= fadeEnd ? 'none' : 'flex')
 
   return (
     <div style={{ fontFamily: font }}>
@@ -106,20 +97,37 @@ export default function UseCases() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '20px 48px',
+          padding: '24px 48px',
           background: 'rgba(250,250,250,0.85)',
           backdropFilter: 'blur(12px)',
           borderBottom: 'none',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <img src="/logo-dark.svg" alt="Calibre" style={{ height: 32 }} onError={(e) => { e.target.src = '/logo-white.svg'; e.target.style.filter = 'invert(1)' }} />
+          <a href="https://calibre.ac"><img src="/Calibre-Logo-Blue-On-White.png" alt="Calibre" style={{ height: 45 }} /></a>
         </div>
-        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 28, fontWeight: 800, color: C.primary, letterSpacing: '-0.02em', fontFamily: font }}>
+        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 39, fontWeight: 800, color: C.primary, letterSpacing: '-0.02em', fontFamily: font }}>
           Auditor OS
         </span>
-        {/* Spacer to balance the logo on the left */}
-        <div style={{ width: 32 }} />
+        <a
+          href="https://forms.clickup.com/90152160985/f/2kyqtkpt-2215/YFIRHK4OBCLLY05SEL"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            padding: '10px 28px',
+            borderRadius: 9999,
+            background: C.primary,
+            color: C.white,
+            textDecoration: 'none',
+            letterSpacing: '0.02em',
+            transition: 'all 0.2s ease',
+            fontFamily: font,
+          }}
+        >
+          Sign Up
+        </a>
       </header>
 
       {/* Scroll runway */}
@@ -210,167 +218,165 @@ export default function UseCases() {
         </ScrollSection>
       ))}
 
-      {/* Section 8: CTA — ClickUp Sign Up Form */}
+      {/* Section 7: CTA */}
       <ScrollSection
         scrollYProgress={scrollYProgress}
-        index={7}
+        index={6}
         totalSections={TOTAL_SECTIONS}
-        bg="linear-gradient(180deg, #000a41 0%, #001a4d 100%)"
+        bg={C.neutral50}
       >
-        <ScrollProvider scrollYProgress={scrollYProgress} sectionIndex={7} totalSections={TOTAL_SECTIONS}>
+        <ScrollProvider scrollYProgress={scrollYProgress} sectionIndex={6} totalSections={TOTAL_SECTIONS}>
           <div
             style={{
               width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#E3F2FF',
-              fontFamily: font,
-              position: 'relative',
+              maxWidth: 700,
+              padding: '0 48px',
+              boxSizing: 'border-box',
+              textAlign: 'center',
             }}
           >
-            <div
-              style={{
-                width: '100%',
-                maxWidth: 1200,
-                padding: '0 48px',
-                boxSizing: 'border-box',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 64,
-                alignItems: 'center',
-              }}
-            >
-              {/* Left: CTA text */}
-              <div>
-                <ScrollReveal order={0}>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 700,
-                      letterSpacing: '0.2em',
-                      textTransform: 'uppercase',
-                      marginBottom: 24,
-                      color: 'rgba(227,242,255,0.5)',
-                    }}
-                  >
-                    Auditor OS · Private Beta
-                  </div>
-                </ScrollReveal>
-
-                <ScrollReveal order={1}>
-                  <h2
-                    style={{
-                      fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                      marginBottom: 16,
-                      color: '#E3F2FF',
-                      letterSpacing: '-0.03em',
-                    }}
-                  >
-                    Stage 1 in hours,
-                    <br />
-                    not days.
-                  </h2>
-                </ScrollReveal>
-
-                <ScrollReveal order={2}>
-                  <p
-                    style={{
-                      fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-                      color: 'rgba(227,242,255,0.65)',
-                      marginBottom: 40,
-                      lineHeight: 1.7,
-                    }}
-                  >
-                    Built by auditors, for auditors. From new audit to signed report — stripped to what matters.
-                  </p>
-                </ScrollReveal>
-
-                <ScrollReveal order={3}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                    <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/amazon-logo.svg" alt="Amazon" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/factset-logo.png" alt="FactSet" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                  </div>
-                </ScrollReveal>
+            <ScrollReveal order={0}>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  marginBottom: 24,
+                  color: C.neutral400,
+                }}
+              >
+                Auditor OS · Private Beta
               </div>
+            </ScrollReveal>
 
-              {/* Right: ClickUp form */}
-              <ScrollReveal order={1} from="right">
-                <div
-                  style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    borderRadius: 16,
-                    border: '1px solid rgba(227,242,255,0.1)',
-                    padding: 4,
-                    height: 480,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <iframe
-                    className="clickup-embed clickup-dynamic-height"
-                    src="https://forms.clickup.com/90152160985/f/2kyqtkpt-2215/YFIRHK4OBCLLY05SEL"
-                    width="100%"
-                    height="100%"
-                    style={{ background: 'transparent', border: 'none', borderRadius: 12 }}
-                  />
-                </div>
-              </ScrollReveal>
-            </div>
+            <ScrollReveal order={1}>
+              <h2
+                style={{
+                  fontSize: 'clamp(2rem, 4.5vw, 3.25rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.1,
+                  marginBottom: 16,
+                  color: C.primary,
+                  letterSpacing: '-0.03em',
+                }}
+              >
+                Stage 1 in hours,
+                <br />
+                not days.
+              </h2>
+            </ScrollReveal>
 
-            <div style={{ position: 'absolute', bottom: 24, fontSize: 14, color: 'rgba(227,242,255,0.25)' }}>
-              © 2026 Calibre Technologies Inc. All rights reserved.
-            </div>
+            <ScrollReveal order={2}>
+              <p
+                style={{
+                  fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
+                  color: C.neutral500,
+                  marginBottom: 40,
+                  lineHeight: 1.7,
+                }}
+              >
+                Built by auditors, for auditors. From new audit to signed report. Streamlined without sacrificing rigour.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal order={3} from="scale">
+              <a
+                href="https://forms.clickup.com/90152160985/f/2kyqtkpt-2215/YFIRHK4OBCLLY05SEL"
+          target="_blank"
+          rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  fontSize: 17,
+                  fontWeight: 700,
+                  padding: '16px 44px',
+                  borderRadius: 9999,
+                  background: C.primary,
+                  color: C.white,
+                  textDecoration: 'none',
+                  letterSpacing: '0.02em',
+                  boxShadow: '0 4px 20px rgba(0,48,95,0.25)',
+                  transition: 'all 0.25s ease',
+                  fontFamily: font,
+                }}
+              >
+                Sign Up Now
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            </ScrollReveal>
+
+            <ScrollReveal order={4}>
+              <div style={{ marginTop: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/amazon-logo.svg" alt="Amazon" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+                <img src="/factset-logo.png" alt="FactSet" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%)' }} />
+              </div>
+            </ScrollReveal>
           </div>
         </ScrollProvider>
       </ScrollSection>
 
-      {/* Fixed bottom Sign Up button */}
-      <div
+      {/* Fixed bottom scroll indicator */}
+      <motion.div
         style={{
           position: 'fixed',
-          bottom: 32,
+          bottom: 40,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 10000,
+          opacity: btnOpacity,
+          display: btnDisplay,
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 8,
+          pointerEvents: 'none',
         }}
       >
-        <a
-          href="#signup"
-          onClick={(e) => {
-            e.preventDefault()
-            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })
-          }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            fontSize: 15,
-            fontWeight: 700,
-            padding: '14px 36px',
-            borderRadius: 9999,
-            background: C.primary,
-            color: C.white,
-            textDecoration: 'none',
-            letterSpacing: '0.02em',
-            cursor: 'pointer',
-            border: 'none',
-            boxShadow: '0 4px 20px rgba(0,48,95,0.3)',
-            transition: 'all 0.25s ease',
-            fontFamily: font,
-          }}
+        <span style={{ fontSize: 14, fontWeight: 700, color: C.primary, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
+          Scroll
+        </span>
+        <motion.svg
+          width="32"
+          height="48"
+          viewBox="0 0 32 48"
+          fill="none"
+          style={{ display: 'block' }}
         >
-          Sign Up
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </a>
-      </div>
+          <rect x="8" y="0" width="16" height="26" rx="8" stroke={C.primary} strokeWidth="2.5" fill="none" />
+          <motion.circle
+            cx="16"
+            cy="10"
+            r="3"
+            fill={C.primary}
+            animate={{ cy: [10, 18, 10] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.path
+            d="M10 34L16 40L22 34"
+            stroke={C.primary}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.path
+            d="M10 40L16 46L22 40"
+            stroke={C.primary}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            animate={{ opacity: [0.2, 0.6, 0.2] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', delay: 0.15 }}
+          />
+        </motion.svg>
+      </motion.div>
     </div>
   )
 }

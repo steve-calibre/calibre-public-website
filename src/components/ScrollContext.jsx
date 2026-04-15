@@ -32,45 +32,50 @@ export function ScrollReveal({
   const seg = 1 / totalSections
   const start = sectionIndex * seg
   const end = start + seg
+  const isLast = sectionIndex === totalSections - 1
 
   // Entrance: staggered by order (skip if startVisible)
   const entryStart = startVisible ? 0 : clamp(start + seg * (0.08 + order * 0.04))
   const entryEnd = startVisible ? 0.001 : clamp(start + seg * (0.22 + order * 0.04))
 
-  // Exit: reverse stagger (last in = first out)
+  // Exit: reverse stagger (skip for last section — it stays visible)
   const exitStart = clamp(end - seg * (0.22 + order * 0.03))
   const exitEnd = clamp(end - seg * (0.08 + order * 0.03))
 
   const opacity = useTransform(
     scrollYProgress,
-    [entryStart, entryEnd, exitStart, exitEnd],
-    startVisible ? [1, 1, 1, 0] : [0, 1, 1, 0]
+    isLast
+      ? [entryStart, entryEnd, 1]
+      : [entryStart, entryEnd, exitStart, exitEnd],
+    isLast
+      ? [0, 1, 1]
+      : startVisible ? [1, 1, 1, 0] : [0, 1, 1, 0]
   )
 
   // Entrance transforms
   const yIn = startVisible ? 0 : from === 'bottom' ? 35 : 0
-  const yOut = from === 'bottom' ? -20 : 0
+  const yOut = isLast ? 0 : from === 'bottom' ? -20 : 0
   const xIn = startVisible ? 0 : from === 'left' ? -40 : from === 'right' ? 40 : 0
-  const xOut = from === 'left' ? 20 : from === 'right' ? -20 : 0
+  const xOut = isLast ? 0 : from === 'left' ? 20 : from === 'right' ? -20 : 0
   const scaleIn = startVisible ? 1 : from === 'scale' ? 0.85 : 1
-  const scaleOut = from === 'scale' ? 0.95 : 1
+  const scaleOut = isLast ? 1 : from === 'scale' ? 0.95 : 1
 
   const y = useTransform(
     scrollYProgress,
-    [entryStart, entryEnd, exitStart, exitEnd],
-    [yIn, 0, 0, yOut]
+    isLast ? [entryStart, entryEnd, 1] : [entryStart, entryEnd, exitStart, exitEnd],
+    isLast ? [yIn, 0, 0] : [yIn, 0, 0, yOut]
   )
 
   const x = useTransform(
     scrollYProgress,
-    [entryStart, entryEnd, exitStart, exitEnd],
-    [xIn, 0, 0, xOut]
+    isLast ? [entryStart, entryEnd, 1] : [entryStart, entryEnd, exitStart, exitEnd],
+    isLast ? [xIn, 0, 0] : [xIn, 0, 0, xOut]
   )
 
   const scale = useTransform(
     scrollYProgress,
-    [entryStart, entryEnd, exitStart, exitEnd],
-    [scaleIn, 1, 1, scaleOut]
+    isLast ? [entryStart, entryEnd, 1] : [entryStart, entryEnd, exitStart, exitEnd],
+    isLast ? [scaleIn, 1, 1] : [scaleIn, 1, 1, scaleOut]
   )
 
   const motionStyle = { opacity, willChange: 'opacity, transform', ...style }

@@ -59,7 +59,7 @@ export default function AuditPlan() {
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {row.qs.map((q, j) => (
                   <div key={j} style={{ fontSize: 14, display: "flex", gap: 8, color: C.neutral600 }}>
-                    <span style={{ color: C.info, fontWeight: 600 }}>?</span>
+                    <span style={{ color: C.info, fontWeight: 600 }}>•</span>
                     <span>{q}</span>
                   </div>
                 ))}

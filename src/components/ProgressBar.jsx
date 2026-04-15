@@ -34,7 +34,7 @@ function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
   const y = useTransform(
     scrollYProgress,
     [a, b, c, d],
-    [20, 0, 0, -20]
+    [24, 0, 0, -24]
   )
 
   return (
@@ -45,7 +45,7 @@ function ScrollLabel({ scrollYProgress, index, totalSections, label }) {
         top: '50%',
         opacity,
         y,
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: 700,
         color: C.primary,
         whiteSpace: 'nowrap',
@@ -72,8 +72,8 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
     <div
       style={{
         position: 'fixed',
-        right: 40,
-        top: '50%',
+        right: 48,
+        top: 'calc(50% + 30px)',
         transform: 'translateY(-50%)',
         height: '70vh',
         zIndex: 9999,
@@ -83,7 +83,7 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
       }}
     >
       {/* Scrolling label */}
-      <div style={{ position: 'relative', width: 120, marginRight: 20 }}>
+      <div style={{ position: 'relative', width: 150, marginRight: 24 }}>
         {sectionLabels.map((label, i) => (
           <ScrollLabel
             key={i}
@@ -96,15 +96,15 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
       </div>
 
       {/* Track + fill + dots */}
-      <div style={{ position: 'relative', width: 28, display: 'flex', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', width: 36, display: 'flex', justifyContent: 'center' }}>
         {/* Track background */}
         <div
           style={{
             position: 'absolute',
             top: 0,
-            width: 6,
+            width: 8,
             height: '100%',
-            borderRadius: 3,
+            borderRadius: 4,
             background: 'rgba(0,48,95,0.08)',
             overflow: 'hidden',
           }}
@@ -114,7 +114,7 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
               width: '100%',
               height: '100%',
               background: `linear-gradient(180deg, ${C.primary} 0%, ${C.primaryLight} 100%)`,
-              borderRadius: 3,
+              borderRadius: 4,
               transformOrigin: 'top',
               scaleY,
             }}
@@ -146,8 +146,8 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 28,
-                    height: 28,
+                    width: 36,
+                    height: 36,
                     borderRadius: '50%',
                     border: `2px solid ${C.primary}`,
                     opacity: 0.2,
@@ -158,12 +158,12 @@ export default function ProgressBar({ scrollYProgress, totalSections, labels }) 
               {/* Dot */}
               <div
                 style={{
-                  width: isActive ? 14 : 10,
-                  height: isActive ? 14 : 10,
+                  width: isActive ? 18 : 12,
+                  height: isActive ? 18 : 12,
                   borderRadius: '50%',
                   background: isPast || isActive ? C.primary : C.neutral200,
                   border: isActive ? '3px solid #fff' : '2px solid transparent',
-                  boxShadow: isActive ? '0 0 12px rgba(0,48,95,0.35)' : 'none',
+                  boxShadow: isActive ? '0 0 14px rgba(0,48,95,0.35)' : 'none',
                   transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)',
                 }}
               />
