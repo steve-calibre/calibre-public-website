@@ -26,37 +26,37 @@ const progressLabels = [
 
 const productSections = [
   {
-    n: "00", label: "New audit",
+    n: "01", label: "New audit",
     narrative: "One click to start.",
     description: "Client details pulled automatically. Standards selected. Scope defined.",
     Component: NewAudit,
   },
   {
-    n: "01", label: "Company deep research",
+    n: "02", label: "Company deep research",
     narrative: "Know everything before you arrive.",
     description: "Hundreds of sources cross-checked in seconds — Companies House, HSE, sector bulletins.",
     Component: CompanyProfile,
   },
   {
-    n: "02", label: "EA code + risk classification",
+    n: "03", label: "EA code + risk classification",
     narrative: "Risk that adapts.",
     description: "Catch risks that standard guidelines might miss. Intelligent context to enhance your audit.",
     Component: Classification,
   },
   {
-    n: "03", label: "Stage 1 audit plan",
+    n: "04", label: "Stage 1 audit plan",
     narrative: "A plan that reads like you wrote it.",
     description: "Questions tied to this client's scope, mapped to clauses, timed to a realistic day.",
     Component: AuditPlan,
   },
   {
-    n: "04", label: "Document review co-pilot",
+    n: "05", label: "Document review co-pilot",
     narrative: "AI recommends. You decide.",
     description: "Clause-by-clause review with evidence references. Your judgement, on the record.",
     Component: Copilot,
   },
   {
-    n: "05", label: "Report generated",
+    n: "06", label: "Report generated",
     narrative: "Leave site with the report drafted.",
     description: "Every finding referenced, every clause tracked, ready to review before you leave.",
     Component: ReportReady,
@@ -197,12 +197,13 @@ export default function UseCases() {
                   <ScrollReveal order={0}>
                     <div
                       style={{
-                        fontSize: 10,
-                        fontWeight: 700,
-                        letterSpacing: '0.2em',
+                        fontSize: 14,
+                        fontWeight: 800,
+                        letterSpacing: '0.12em',
                         textTransform: 'uppercase',
-                        marginBottom: 8,
-                        color: C.neutral400,
+                        marginBottom: 12,
+                        color: C.primary,
+                        opacity: 0.5,
                       }}
                     >
                       {n} &nbsp;·&nbsp; {label}
@@ -232,28 +233,27 @@ export default function UseCases() {
 
               {/* Card */}
               <div style={{ maxWidth: isMobile ? undefined : 520 }}>
-                {!isMobile && (
-                  <ScrollReveal order={0}>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        marginBottom: 16,
-                        color: C.neutral400,
-                      }}
-                    >
-                      {n} &nbsp;·&nbsp; {label}
-                    </div>
-                  </ScrollReveal>
-                )}
                 <Component />
               </div>
 
               {/* Narrative — desktop/tablet, shown on right */}
               {!isMobile && (
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <ScrollReveal order={0} from="right">
+                    <div
+                      style={{
+                        fontSize: isTablet ? 14 : 17,
+                        fontWeight: 800,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        marginBottom: isTablet ? 12 : 16,
+                        color: C.primary,
+                        opacity: 0.5,
+                      }}
+                    >
+                      {n} &nbsp;·&nbsp; {label}
+                    </div>
+                  </ScrollReveal>
                   <ScrollReveal order={1} from="right">
                     <h3
                       style={{
