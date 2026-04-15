@@ -56,33 +56,33 @@ function App() {
             </motion.div>
           </main>
         </div>
-      </div>
 
-      <motion.div
-        className="alumni-banner"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-      >
-        <p className="alumni-text">Built by alumni from:</p>
-        <div className="alumni-logos">
-          <img src="/palantir-logo-black.png" alt="Palantir" className="alumni-logo alumni-logo--palantir" />
-          <img src="/tuv-nord.jpg" alt="TÜV NORD" className="alumni-logo alumni-logo--tuv-nord" />
-          <img src="/oc-and-c-logo.png" alt="OC&C" className="alumni-logo alumni-logo--oc-and-c" />
-          <img src="/amazon-logo.svg" alt="Amazon" className="alumni-logo alumni-logo--amazon" />
-          <img src="/factset-logo.png" alt="FactSet" className="alumni-logo alumni-logo--factset" />
-        </div>
-      </motion.div>
-
-      <footer className="footer">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
+        <motion.div
+          className="alumni-banner"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
         >
-          © 2026 Calibre Technologies Inc. All rights reserved.
-        </motion.p>
-      </footer>
+          <p className="alumni-text">Built by alumni from:</p>
+          <div className="alumni-logos">
+            <img src="/palantir-logo-black.png" alt="Palantir" className="alumni-logo alumni-logo--palantir" />
+            <img src="/tuv-nord.jpg" alt="TÜV NORD" className="alumni-logo alumni-logo--tuv-nord" />
+            <img src="/oc-and-c-logo.png" alt="OC&C" className="alumni-logo alumni-logo--oc-and-c" />
+            <img src="/amazon-logo.svg" alt="Amazon" className="alumni-logo alumni-logo--amazon" />
+            <img src="/factset-logo.png" alt="FactSet" className="alumni-logo alumni-logo--factset" />
+          </div>
+        </motion.div>
+
+        <footer className="footer">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            © 2026 Calibre Technologies Inc. All rights reserved.
+          </motion.p>
+        </footer>
+      </div>
 
       <DemoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>

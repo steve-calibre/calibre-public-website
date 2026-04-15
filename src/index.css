@@ -1,3 +1,4 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap');
 
 * {
@@ -12,27 +13,35 @@
   --text: #E3F2FF;
   --hero-peek: 170px; /* amount of banner peek at bottom of viewport */
 
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color: var(--text);
-  /* Site-wide vertical gradient background */
-  background: linear-gradient(180deg, #000a41 0%, #e3f2ff 100%);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  /* Mirror gradient on body to ensure full-page coverage */
-  background: linear-gradient(180deg, #000a41 0%, #e3f2ff 100%);
   overflow-x: hidden;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --vh-unit: 1dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 #root {
@@ -40,7 +49,17 @@ body {
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Home page dark theme — scoped to .app wrapper */
+.app {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text);
+  background: linear-gradient(180deg, #000a41 0%, #e3f2ff 100%);
+  min-height: 100vh;
+}
+
+.app h1, .app h2, .app h3, .app h4, .app h5, .app h6 {
   margin: 0;
   font-weight: 300;
   color: var(--accent);

@@ -16,6 +16,7 @@ const ParticleBackground = () => {
     const ctx = canvas.getContext('2d')
     let animationFrameId
     let resizeObserver
+    let isVisible = true
 
     // Set canvas size based on parent container so it scrolls with content
     const resizeCanvas = () => {
@@ -411,7 +412,27 @@ const ParticleBackground = () => {
         }
       }
 
-      animationFrameId = requestAnimationFrame(animate)
+      if (isVisible) {
+        animationFrameId = requestAnimationFrame(animate)
+      }
+    }
+
+    // Visibility observer: pause animation when off-screen
+    let visibilityObserver
+    if ('IntersectionObserver' in window) {
+      visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting
+          if (isVisible && !animationFrameId) {
+            animate()
+          } else if (!isVisible && animationFrameId) {
+            cancelAnimationFrame(animationFrameId)
+            animationFrameId = null
+          }
+        },
+        { threshold: 0.05 }
+      )
+      visibilityObserver.observe(canvas)
     }
 
     // Initialize and start animation
@@ -433,6 +454,9 @@ const ParticleBackground = () => {
         resizeObserver.disconnect()
       } else {
         window.removeEventListener('resize', resizeCanvas)
+      }
+      if (visibilityObserver) {
+        visibilityObserver.disconnect()
       }
       window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(animationFrameId)
