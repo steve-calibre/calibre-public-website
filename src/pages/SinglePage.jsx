@@ -293,17 +293,28 @@ export default function SinglePage() {
                       lineHeight: 1.7,
                     }}
                   >
-                    Built by auditors, for auditors. From new audit to signed report — stripped to what matters.
+                    Built by auditors, for AI-assisted ISO audits. Deeper preparation, faster reviews, defensible reports — every clause traceable.
                   </p>
                 </ScrollReveal>
 
                 <ScrollReveal order={3}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                    <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/amazon-logo.svg" alt="Amazon" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
-                    <img src="/factset-logo.png" alt="FactSet" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <span style={{
+                      fontSize: 12,
+                      fontWeight: 600,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(227,242,255,0.4)',
+                    }}>
+                      Built by alumni from:
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                      <img src="/palantir-logo-black.png" alt="Palantir" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                      <img src="/oc-and-c-logo.png" alt="OC&C" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                      <img src="/amazon-logo.svg" alt="Amazon" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                      <img src="/factset-logo.png" alt="FactSet" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                      <img src="/tuv-nord.jpg" alt="TUV NORD" style={{ height: 28, opacity: 0.4, filter: 'grayscale(100%) brightness(2)' }} />
+                    </div>
                   </div>
                 </ScrollReveal>
               </div>

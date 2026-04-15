@@ -6,11 +6,11 @@ import useMediaQuery from "../../hooks/useMediaQuery";
 const rows = [
   {
     t: "10:00", a: "Context of the Organisation", c: "4.1–4.4",
-    qs: ["How do you sync cleaning protocols across the three NHS sites?", "Which trusts have you onboarded in the last 12 months?"],
+    qs: ["How do you sync cleaning protocols across the three NHS sites?"],
   },
   {
     t: "11:15", a: "Policy, Roles & Responsibilities", c: "5.2–5.3",
-    qs: ["Who owns the chemical inventory register?", "Show evidence the supervisor role covers infection-control obligations."],
+    qs: ["Who owns the chemical inventory register?"],
   },
   {
     t: "13:00", a: "Risk & Opportunities", c: "6.1",
@@ -52,7 +52,7 @@ export default function AuditPlan() {
               display: "grid",
               gridTemplateColumns: gridCols,
               fontSize: isMobile ? 13 : 14,
-              padding: isMobile ? "14px 0" : "20px 0",
+              padding: isMobile ? "14px 0" : "16px 0",
               borderBottom: i < 2 ? `1px solid ${C.neutral200}` : "none",
               color: C.textBody,
               alignItems: "start",
