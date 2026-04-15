@@ -106,7 +106,7 @@ export default function UseCases() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <a href="https://calibre.ac"><img src="/Calibre-Logo-Blue-On-White.png" alt="Calibre" style={{ height: 45 }} /></a>
         </div>
-        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 39, fontWeight: 800, color: C.primary, letterSpacing: '-0.02em', fontFamily: font }}>
+        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 47, fontWeight: 800, color: C.primary, letterSpacing: '-0.02em', fontFamily: font }}>
           Auditor OS
         </span>
         <a
@@ -157,11 +157,11 @@ export default function UseCases() {
               style={{
                 width: '100%',
                 maxWidth: 1200,
-                padding: '0 48px',
+                padding: '0 280px 0 48px',
                 boxSizing: 'border-box',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 64,
+                gridTemplateColumns: '1.2fr 1fr',
+                gap: 48,
                 alignItems: 'center',
               }}
             >
