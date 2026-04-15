@@ -343,22 +343,22 @@ export default function UseCases() {
         </span>
         <motion.svg
           width="32"
-          height="48"
-          viewBox="0 0 32 48"
+          height="52"
+          viewBox="0 -2 32 52"
           fill="none"
-          style={{ display: 'block' }}
+          style={{ display: 'block', overflow: 'visible' }}
         >
-          <rect x="8" y="0" width="16" height="26" rx="8" stroke={C.primary} strokeWidth="2.5" fill="none" />
+          <rect x="8" y="2" width="16" height="26" rx="8" stroke={C.primary} strokeWidth="2.5" fill="none" />
           <motion.circle
             cx="16"
-            cy="10"
+            cy="12"
             r="3"
             fill={C.primary}
-            animate={{ cy: [10, 18, 10] }}
+            animate={{ cy: [12, 20, 12] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.path
-            d="M10 34L16 40L22 34"
+            d="M10 36L16 42L22 36"
             stroke={C.primary}
             strokeWidth="2.5"
             strokeLinecap="round"
@@ -367,7 +367,7 @@ export default function UseCases() {
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.path
-            d="M10 40L16 46L22 40"
+            d="M10 42L16 48L22 42"
             stroke={C.primary}
             strokeWidth="2"
             strokeLinecap="round"
